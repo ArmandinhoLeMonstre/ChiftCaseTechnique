@@ -4,7 +4,11 @@ from app.db.db import Session
 from app.db.models import Partner, SyncState
 
 def get_last_sync():
-    pass
+    with Session() as session:
+        stmt = select(SyncState.write_date).where(SyncState.model == "res.partner")
+        last_sync = session.execute(stmt).scalar_one_or_none()
+
+        return (last_sync)
 
 def set_last_sync(records):
     size = len(records)

@@ -27,3 +27,6 @@ def main():
         run_incremental_job(odoo, model, fields, limit, offset, order)
     elif args.mode == "reconciliation":
         print("not implemented yet")
+
+if __name__ == "__main__":
+    main()

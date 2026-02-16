@@ -18,7 +18,7 @@ class OdooClient:
 
         self.models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(url))
     
-    def search_read(self, model, fields=None, limit=100, offset=0, order=None):
+    def search_read(self, model, domain, fields=None, limit=100, offset=0, order=None):
         kwargs = {}
 
         if fields:
@@ -37,7 +37,7 @@ class OdooClient:
                 self.password,
                 model,
                 "search_read",
-                [],
+                [domain],
                 kwargs
             )
         except xmlrpc.client.Fault as e:
