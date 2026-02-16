@@ -47,3 +47,30 @@ class OdooClient:
 
         return(data)
 
+    def search(self, model, domain, limit=100, offset=0, order=None):
+        kwargs = {}
+
+        if limit:
+            kwargs["limit"] = limit
+        if offset:
+            kwargs["offset"] = offset
+        if order:
+            kwargs["order"] = order
+
+        try:
+            data = self.models.execute_kw(
+                self.db,
+                self.uid,
+                self.password,
+                model,
+                "search",
+                [domain],
+                kwargs
+            )
+        except xmlrpc.client.Fault as e:
+            raise RuntimeError(f'Query problem : {e.faultString}')
+        except Exception as e:
+            raise RuntimeError(f'Unexpected error : {e}')
+        
+        return(data)
+

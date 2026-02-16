@@ -1,4 +1,5 @@
 from app.jobs.jobs_incremental import run_incremental_job
+from app.jobs.jobs_reconciliation import run_reconciliation_job
 from app.services.odoo_init import get_odoo_client
 from app.services.arg_parser import handle_args
 import sys
@@ -26,7 +27,11 @@ def main():
         order = 'write_date asc'
         run_incremental_job(odoo, model, fields, limit, offset, order)
     elif args.mode == "reconciliation":
-        print("not implemented yet")
+        model = args.model
+        limit = args.limit or 5
+        offset = 0
+        order = 'write_date asc'
+        run_reconciliation_job(odoo, model, limit, offset, order)
 
 if __name__ == "__main__":
     main()

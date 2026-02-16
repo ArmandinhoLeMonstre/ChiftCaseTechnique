@@ -1,8 +1,8 @@
-from app.services.db_operations import upsert_partner, update_last_sync, get_last_sync
+import app.services.db_operations as db_operations
 
 def run_incremental_job(odoo, model, fields, limit, offset, order):
     domain = []
-    last_sync = get_last_sync()
+    last_sync = db_operations.get_last_sync()
 
     if last_sync:
         domain = [('write_date','>=', last_sync)]
@@ -13,9 +13,9 @@ def run_incremental_job(odoo, model, fields, limit, offset, order):
         if not records:
             break
 
-        write_date = upsert_partner(records)
+        write_date = db_operations.upsert_partner(records)
 
         offset += limit
-        update_last_sync(write_date)
+        db_operations.update_last_sync(write_date)
     
 

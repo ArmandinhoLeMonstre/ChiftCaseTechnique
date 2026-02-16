@@ -1,5 +1,5 @@
 from sqlalchemy.dialects.postgresql import insert
-from sqlalchemy import select
+from sqlalchemy import select, update, delete
 from app.db.db import Session
 from app.db.models import Partner, SyncState
 
@@ -54,3 +54,26 @@ def upsert_partner(records):
             session.rollback()
             raise
 
+def update_reconciliation_to_false():
+    with Session() as session:
+        stmt = (
+            update(Partner).values(reconciliation_flag=False)
+        )
+        session.execute(stmt)
+        session.commit()
+
+def update_reconciliation_to_true(odoo_ids):
+    with Session() as session:
+        stmt = (
+            update(Partner)
+            .where(Partner.id.in_(odoo_ids))
+            .values(reconciliation_flag=True)
+        )
+        session.execute(stmt)
+        session.commit()
+
+def delete_partners():
+    with Session() as session:
+        stmt = delete(Partner).where(Partner.reconciliation_flag==False)
+        session.execute(stmt)
+        session.commit()

@@ -19,6 +19,7 @@ class Partner(Base):
     website: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
     write_date: Mapped[datetime]= mapped_column(DateTime)
     active: Mapped[bool] = mapped_column(Boolean, default=True)
+    reconciliation_flag: Mapped[bool] = mapped_column(Boolean)
 
     def __repr__(self) -> str:
         return f"User(id={self.id!r}, name={self.name!r})"
@@ -28,7 +29,7 @@ class SyncState(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     model: Mapped[str] = mapped_column(String(30), unique=True)
-    write_date: Mapped[datetime]= mapped_column(DateTime)
+    write_date: Mapped[datetime]= mapped_column(DateTime, nullable=True)
 
     def __repr__(self) -> str:
         return f"User(id={self.id!r}, name={self.name!r})"
