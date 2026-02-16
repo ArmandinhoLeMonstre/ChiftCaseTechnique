@@ -1,2 +1,4 @@
 .env
-api/app/__pycache__
+notes.txt
+.ruff_cache
+__pycache__

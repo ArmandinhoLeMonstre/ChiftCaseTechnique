@@ -8,4 +8,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY ./app /code/app
 
-CMD ["python3", "app/worker.py"]
+CMD ["tail", "-f", "/dev/null"]
