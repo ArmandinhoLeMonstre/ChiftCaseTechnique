@@ -20,7 +20,7 @@ def main():
         sys.exit(1)
 
     if args.mode == "incremental":
-        fields =  ['id', 'name', 'email', 'write_date', 'active']
+        fields =  ['id', 'name', 'email', 'website', 'write_date', 'active']
         model = args.model
         limit = args.limit or 5
         offset = 0

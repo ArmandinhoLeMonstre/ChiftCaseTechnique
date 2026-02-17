@@ -19,13 +19,15 @@ class OdooClient:
         self.models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(url))
     
     def search_read(self, model, domain, fields=None, limit=100, offset=0, order=None):
-        kwargs = {}
+        kwargs = {
+            'context': {'active_test': False}
+        }
 
         if fields:
             kwargs["fields"] = fields
         if limit:
             kwargs["limit"] = limit
-        if offset:
+        if offset is not None:
             kwargs["offset"] = offset
         if order:
             kwargs["order"] = order
@@ -48,11 +50,13 @@ class OdooClient:
         return(data)
 
     def search(self, model, domain, limit=100, offset=0, order=None):
-        kwargs = {}
+        kwargs = {
+            'context': {'active_test': False}
+        }
 
         if limit:
             kwargs["limit"] = limit
-        if offset:
+        if offset is not None:
             kwargs["offset"] = offset
         if order:
             kwargs["order"] = order
