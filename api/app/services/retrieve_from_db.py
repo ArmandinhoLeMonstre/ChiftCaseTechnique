@@ -11,7 +11,7 @@ def fetch_multiple_contacts(limit, offset, db):
             Partner.write_date,
             Partner.active
         )
-        .order_by(Partner.write_date.asc()).limit(limit).offset(offset)
+        .order_by(Partner.id.asc()).limit(limit).offset(offset)
     )
 
     rows = db.execute(stmt).mappings().all()
