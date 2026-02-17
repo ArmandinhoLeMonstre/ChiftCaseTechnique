@@ -14,6 +14,7 @@ mv .env.exemple .env
 Update the `.env` file with your configuration:
 
 DATABASE_URL=postgresql+psycopg://user:password@db:5432/database
+
 ODOO_URL=https://your-odoo-instance.com 
 ODOO_DB=your_db
 ODOO_USERNAME=your_user 
