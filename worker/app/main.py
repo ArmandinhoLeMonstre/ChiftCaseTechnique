@@ -26,12 +26,14 @@ def main():
         offset = 0
         order = 'write_date asc'
         run_incremental_job(odoo, model, fields, limit, offset, order)
+        print("Incremental job done !")
     elif args.mode == "reconciliation":
         model = args.model
         limit = args.limit or 5
         offset = 0
         order = 'write_date asc'
         run_reconciliation_job(odoo, model, limit, offset, order)
+        print("Reconciliation job done !")
 
 if __name__ == "__main__":
     main()
