@@ -96,8 +96,7 @@ SHELL=/bin/bash
 
 */5 * \* \* \* cd /code && source bootstrap.sh && bash scripts/run_incremental.sh \>\> /var/log/cron.log 2\>&1 
 0 23 \* \* \* cd /code && source bootstrap.sh && bash scripts/run_reconciliation.sh \>\> /var/log/cron.log 2\>&1
-```bash
-
+```
 Logs are written to:
 
 /var/log/cron.log
