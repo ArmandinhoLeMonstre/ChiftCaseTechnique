@@ -1,8 +1,14 @@
 from fastapi import FastAPI
-from app.models import models
+from app.db.conn_test import db_conn_test
+from contextlib import asynccontextmanager
+from app.routers.contacts_router import router as contacts_router
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    db_conn_test()
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World 2"}
+    yield
+
+app = FastAPI(lifespan=lifespan)
+
+app.include_router(contacts_router)
