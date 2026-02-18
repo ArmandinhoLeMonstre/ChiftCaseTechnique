@@ -1,5 +1,5 @@
 from sqlalchemy.dialects.postgresql import insert
-from sqlalchemy import select, update, delete
+from sqlalchemy import select, update, delete, literal_column
 from app.db.db import Session
 from app.db.models import Partner, SyncState
 
@@ -10,12 +10,6 @@ def get_last_sync():
 
         return (last_sync)
 
-def set_last_sync(records):
-    size = len(records)
-    write_date = records[size - 1]["write_date"]
-
-    return write_date
-
 def update_last_sync(write_date):
     with Session() as session:
         stmt = select(SyncState).where(SyncState.model == "res.partner")
@@ -25,7 +19,6 @@ def update_last_sync(write_date):
             session.add(sync_state)
             session.commit()
         except Exception as e:
-            print(f'Sync state update failure: {e}')
             session.rollback()
             raise
 
@@ -44,12 +37,13 @@ def upsert_partner(records):
                 "active": stmt.excluded.active,
             }
         )
+        stmt = stmt.returning(literal_column("xmax"))
 
         try:
-            session.execute(stmt)
+            result = session.execute(stmt)
+            rows = result.fetchall()
             session.commit()
-            latest_write_date = set_last_sync(records)
-            return latest_write_date
+            return rows
         except Exception:
             session.rollback()
             raise
@@ -75,5 +69,8 @@ def update_reconciliation_to_true(odoo_ids):
 def delete_partners():
     with Session() as session:
         stmt = delete(Partner).where(Partner.reconciliation_flag==False)
-        session.execute(stmt)
+        result = session.execute(stmt)
+        deleted = result.rowcount or 0
         session.commit()
+
+        return (deleted)

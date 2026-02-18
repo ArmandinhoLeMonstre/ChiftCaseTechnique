@@ -1,4 +1,5 @@
 import app.services.db_operations as db_operations
+from app.services.log_data import log_deleted_rows
 
 def run_reconciliation_job(odoo, model, limit, offset, order):
     domain = []
@@ -14,4 +15,5 @@ def run_reconciliation_job(odoo, model, limit, offset, order):
 
         offset += limit
 
-    db_operations.delete_partners()
+    rows = db_operations.delete_partners()
+    log_deleted_rows(rows)

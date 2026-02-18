@@ -12,7 +12,7 @@ class OdooClient:
         except OSError as e:
             raise RuntimeError(f'{e}, Odoo url probably invalid or unreachable')
         
-        self.uid = self.common.authenticate(db, username, password, {})
+        self.uid = self.common.authenticate(self.db, self.username, self.password, {})
         if not self.uid:
             raise RuntimeError(f'Authentification failed for {username} on {db}')
 
