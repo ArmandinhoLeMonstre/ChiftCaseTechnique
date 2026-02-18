@@ -4,6 +4,7 @@ from datetime import datetime
 
 class ContactsResponse(BaseModel):
     id: int
+    odoo_id: int
     name: str
     email: Optional[str] = None
     website: Optional[str] = None

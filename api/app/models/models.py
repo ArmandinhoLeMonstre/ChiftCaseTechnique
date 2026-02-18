@@ -13,7 +13,8 @@ class Base(DeclarativeBase):
 class Partner(Base):
     __tablename__ = "partners"
 
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    odoo_id: Mapped[int] = mapped_column(unique=True, index=True)
     name: Mapped[str] = mapped_column(String(255))
     email: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
     website: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
@@ -22,7 +23,13 @@ class Partner(Base):
     reconciliation_flag: Mapped[bool] = mapped_column(Boolean, nullable=True)
 
     def __repr__(self) -> str:
-        return f"User(id={self.id!r}, name={self.name!r})"
+        return (
+            f"Partner(id={self.id}, "
+            f"odoo_id={self.odoo_id}, "
+            f"name='{self.name}', "
+            f"active={self.active}, "
+            f"reconciliation_flag={self.reconciliation_flag})"
+        )
 
 class SyncState(Base):
     __tablename__ = "sync_state"
@@ -32,4 +39,8 @@ class SyncState(Base):
     write_date: Mapped[datetime]= mapped_column(DateTime, nullable=True)
 
     def __repr__(self) -> str:
-        return f"User(id={self.id!r}, name={self.name!r})"
+        return (
+            f"SyncState(id={self.id}, "
+            f"model='{self.model}', "
+            f"write_date={self.write_date})"
+        )

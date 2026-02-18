@@ -5,6 +5,7 @@ def fetch_multiple_contacts(limit, offset, db):
     stmt = (
         select(
             Partner.id,
+            Partner.odoo_id,
             Partner.name,
             Partner.email,
             Partner.website,

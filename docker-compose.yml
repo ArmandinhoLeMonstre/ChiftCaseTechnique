@@ -41,6 +41,7 @@ services:
     container_name: worker
     volumes:
       - ./worker/cron.log:/var/log/cron.log
+      - ./worker/app:/code/app
     depends_on:
       db:
         condition: service_healthy

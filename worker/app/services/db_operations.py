@@ -35,7 +35,7 @@ def upsert_partner(records):
         stmt = insert(Partner).values(records)
 
         stmt = stmt.on_conflict_do_update(
-            index_elements=[Partner.id],
+            index_elements=[Partner.odoo_id],
             set_={
                 "name": stmt.excluded.name,
                 "email": stmt.excluded.email,
@@ -66,7 +66,7 @@ def update_reconciliation_to_true(odoo_ids):
     with Session() as session:
         stmt = (
             update(Partner)
-            .where(Partner.id.in_(odoo_ids))
+            .where(Partner.odoo_id.in_(odoo_ids))
             .values(reconciliation_flag=True)
         )
         session.execute(stmt)
