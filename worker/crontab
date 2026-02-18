@@ -1,4 +1,4 @@
 SHELL=/bin/bash
 
-*/2 * * * * root cd /code && source bootstrap.sh && bash scripts/run_incremental.sh >> /var/log/cron.log 2>&1
-1-59/2 * * * * root cd /code && source bootstrap.sh && bash scripts/run_reconciliation.sh >> /var/log/cron.log 2>&1
+5-59/10 * * * * root cd /code && source bootstrap.sh && bash scripts/run_incremental.sh >> /var/log/cron.log 2>&1
+10-59/10 * * * * root cd /code && source bootstrap.sh && bash scripts/run_reconciliation.sh >> /var/log/cron.log 2>&1
